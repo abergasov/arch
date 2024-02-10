@@ -43,7 +43,7 @@ install-apps: patch-pacman
 	@echo "Installing flatpak apps..."
 	flatpak install -y us.zoom.Zoom
 	yay -S --asdeps --needed $(yay -Si goland | sed -n '/^Opt/,/^Conf/p' | sed '$d' | sed 's/^Opt.*://g' | sed 's/^\s*//g' | tr '\n' ' ')
-	yay -S goland
+	yay -S --noconfirm --needed goland
 
 add-user-groups:
 	sudo usermod -aG docker $(USER)
