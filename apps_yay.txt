@@ -1,3 +1,4 @@
 spotify
 obsidian
 slack
+azuredatastudio-bin

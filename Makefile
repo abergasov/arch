@@ -1,5 +1,5 @@
 APPS = "pacman-contrib vlc base cmake opensnitch dnsmasq openssh jq openvpn wpa_supplicant wireless-regdb wireless_tools libreoffice-still sudo mc git nano curl wget flatpak flameshot base-devel mpv yay docker docker-compose tailscale avahi curl dnsutils firewalld net-tools netctl networkmanager networkmanager-openvpn network-manager-applet nm-connection-editor nss-mdns wget whois telegram-desktop steam"
-APPS_YAY = "spotify obsidian slack"
+APPS_YAY = "spotify obsidian slack azuredatastudio-bin"
 FONTS = "cantarell-fonts inter-font noto-fonts ttf-bitstream-vera ttf-caladea ttf-carlito ttf-cascadia-code ttf-croscore ttf-dejavu ttf-droid ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-inconsolata ttf-liberation ttf-opensans ttf-roboto ttf-ubuntu-font-family"
 DRIVERS = "dkms amd-ucode libva-utils linux-headers mesa"
 MMEDIA = "alsa-card-profiles alsa-lib alsa-plugins alsa-firmware alsa-utils gst-libav gst-plugin-pipewire gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gstreamer-vaapi libpulse pipewire wireplumber x264 x265 xvidcore"
@@ -57,6 +57,7 @@ create-git-template:
 	@echo '        fi' >> $(GIT_TEMPLATE_HOOK)
 	@echo 'fi' >> $(GIT_TEMPLATE_HOOK)
 	@chmod +x $(GIT_TEMPLATE_HOOK)
+	@git config --global init.templatedir '~/.git-templates'
 
 enable-daemons:
 	sudo systemctl enable docker.service
