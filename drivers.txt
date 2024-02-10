@@ -1,0 +1,5 @@
+dkms
+amd-ucode
+libva-utils
+linux-headers
+mesa
