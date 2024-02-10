@@ -29,6 +29,8 @@ install-apps: patch-pacman
 	sudo pacman -S --noconfirm --needed $(FONTS)
 	@echo "Installing media..."
 	sudo pacman -S --noconfirm --needed $(MMEDIA)
+	@echo "Installing flatpak apps..."
+	flatpak install -y us.zoom.Zoom
 
 add-user-groups:
 	sudo usermod -aG docker $(USER)
