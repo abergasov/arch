@@ -23,6 +23,7 @@ base-devel
 mpv
 dhcpcd
 bluez
+zsh
 bluez-utils
 docker
 docker-compose
