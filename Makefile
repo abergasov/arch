@@ -2,7 +2,7 @@ APPS = pacman-contrib vlc base cmake opensnitch dnsmasq openssh jq openvpn wpa_s
 APPS_YAY = spotify obsidian slack azuredatastudio-bin
 FONTS = cantarell-fonts inter-font noto-fonts ttf-bitstream-vera ttf-caladea ttf-carlito ttf-cascadia-code ttf-croscore ttf-dejavu ttf-droid ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-inconsolata ttf-liberation ttf-opensans ttf-roboto ttf-ubuntu-font-family
 DRIVERS = dkms amd-ucode libva-utils linux-headers mesa
-MMEDIA = "alsa-card-profiles alsa-lib alsa-plugins alsa-firmware alsa-utils gst-libav gst-plugin-pipewire gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gstreamer-vaapi libpulse pipewire wireplumber x264 x265 xvidcore
+MMEDIA = alsa-card-profiles alsa-lib alsa-plugins alsa-firmware alsa-utils gst-libav gst-plugin-pipewire gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gstreamer-vaapi libpulse pipewire wireplumber x264 x265 xvidcore
 PWD = $(shell pwd)
 GIT_TEMPLATE_HOOK = $(HOME)/.git-templates/hooks/prepare-commit-msg
 
