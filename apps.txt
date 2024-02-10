@@ -38,3 +38,5 @@ nm-connection-editor
 nss-mdns
 wget
 whois
+telegram-desktop
+steam
