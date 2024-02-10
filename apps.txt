@@ -21,7 +21,9 @@ flatpak
 flameshot
 base-devel
 mpv
-yay
+dhcpcd
+bluez
+bluez-utils
 docker
 docker-compose
 tailscale

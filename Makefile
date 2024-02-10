@@ -1,17 +1,17 @@
-APPS = "pacman-contrib vlc base cmake opensnitch dnsmasq openssh jq openvpn wpa_supplicant wireless-regdb wireless_tools libreoffice-still sudo mc git nano curl wget flatpak flameshot base-devel mpv yay docker docker-compose tailscale avahi curl dnsutils firewalld net-tools netctl networkmanager networkmanager-openvpn network-manager-applet nm-connection-editor nss-mdns wget whois telegram-desktop steam"
-APPS_YAY = "spotify obsidian slack azuredatastudio-bin"
-FONTS = "cantarell-fonts inter-font noto-fonts ttf-bitstream-vera ttf-caladea ttf-carlito ttf-cascadia-code ttf-croscore ttf-dejavu ttf-droid ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-inconsolata ttf-liberation ttf-opensans ttf-roboto ttf-ubuntu-font-family"
-DRIVERS = "dkms amd-ucode libva-utils linux-headers mesa"
-MMEDIA = "alsa-card-profiles alsa-lib alsa-plugins alsa-firmware alsa-utils gst-libav gst-plugin-pipewire gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gstreamer-vaapi libpulse pipewire wireplumber x264 x265 xvidcore"
+APPS = pacman-contrib vlc base cmake opensnitch dnsmasq openssh jq openvpn wpa_supplicant wireless-regdb wireless_tools libreoffice-still sudo mc git nano curl wget flatpak flameshot base-devel mpv dhcpcd bluez bluez-utils docker docker-compose tailscale avahi curl dnsutils firewalld net-tools netctl networkmanager networkmanager-openvpn network-manager-applet nm-connection-editor nss-mdns wget whois telegram-desktop steam
+APPS_YAY = spotify obsidian slack azuredatastudio-bin
+FONTS = cantarell-fonts inter-font noto-fonts ttf-bitstream-vera ttf-caladea ttf-carlito ttf-cascadia-code ttf-croscore ttf-dejavu ttf-droid ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-inconsolata ttf-liberation ttf-opensans ttf-roboto ttf-ubuntu-font-family
+DRIVERS = dkms amd-ucode libva-utils linux-headers mesa
+MMEDIA = "alsa-card-profiles alsa-lib alsa-plugins alsa-firmware alsa-utils gst-libav gst-plugin-pipewire gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gstreamer-vaapi libpulse pipewire wireplumber x264 x265 xvidcore
 PWD = $(shell pwd)
 GIT_TEMPLATE_HOOK = $(HOME)/.git-templates/hooks/prepare-commit-msg
 
 regenerate:
-	/bin/bash -c "sed -i 's/^APPS = .*/APPS = \"$(shell cat apps.txt)\"/' $(PWD)/Makefile"
-	/bin/bash -c "sed -i 's/^APPS_YAY = .*/APPS_YAY = \"$(shell cat apps_yay.txt)\"/' $(PWD)/Makefile"
-	/bin/bash -c "sed -i 's/^FONTS = .*/FONTS = \"$(shell cat fonts.txt)\"/' $(PWD)/Makefile"
-	/bin/bash -c "sed -i 's/^DRIVERS = .*/DRIVERS = \"$(shell cat drivers.txt)\"/' $(PWD)/Makefile"
-	/bin/bash -c "sed -i 's/^MMEDIA = .*/MMEDIA = \"$(shell cat media.txt)\"/' $(PWD)/Makefile"
+	/bin/bash -c "sed -i 's/^APPS = .*/APPS = $(shell cat apps.txt)/' $(PWD)/Makefile"
+	/bin/bash -c "sed -i 's/^APPS_YAY = .*/APPS_YAY = $(shell cat apps_yay.txt)/' $(PWD)/Makefile"
+	/bin/bash -c "sed -i 's/^FONTS = .*/FONTS = $(shell cat fonts.txt)/' $(PWD)/Makefile"
+	/bin/bash -c "sed -i 's/^DRIVERS = .*/DRIVERS = $(shell cat drivers.txt)/' $(PWD)/Makefile"
+	/bin/bash -c "sed -i 's/^MMEDIA = .*/MMEDIA = $(shell cat media.txt)/' $(PWD)/Makefile"
 
 patch-pacman:
 	/bin/bash -c "sudo sed -i 's/#Color/Color/g' /etc/pacman.conf"
@@ -22,6 +22,16 @@ install-apps: patch-pacman
 	sudo pacman -Syu --noconfirm
 	@echo "Installing apps..."
 	sudo pacman -S --noconfirm --needed $(APPS)
+	@if ! command -v yay > /dev/null; then \
+		echo "Yay not found. Installing..."; \
+		git clone https://aur.archlinux.org/yay.git /tmp/yay; \
+		cd /tmp/yay; \
+		makepkg -si --noconfirm; \
+		rm -rf /tmp/yay; \
+		echo "Yay installation complete."; \
+	else \
+		echo "Yay is already installed."; \
+	fi
 	@echo "Installing apps from AUR..."
 	yay -S --noconfirm --needed $(APPS_YAY)
 	@echo "Installing drivers..."
@@ -39,7 +49,7 @@ add-user-groups:
 	sudo usermod -aG docker $(USER)
 
 create-git-template:
-	mkdir -p "~/.git-templates/hooks/"
+	mkdir -p $(HOME)/.git-templates/hooks/
 	touch $(GIT_TEMPLATE_HOOK)
 	@echo '#!/bin/bash' > $(GIT_TEMPLATE_HOOK)
 	@echo 'BRANCH_NAME=$$(git rev-parse --abbrev-ref HEAD 2>/dev/null)' >> $(GIT_TEMPLATE_HOOK)
@@ -71,8 +81,8 @@ enable-daemons:
 install-translator:
 	@echo "Installing translator..."
 	wget git.io/trans
-	chmod +x ./trans
-	chown root:root ./trans
+	sudo chmod +x ./trans
+	sudo chown root:root ./trans
 	sudo mv ./trans /usr/bin/trans
 
 install-hyprland:
@@ -80,7 +90,7 @@ install-hyprland:
 	git clone https://github.com/abergasov/HyprV4.git
 	cd HyprV4 && ./set-hypr
 
-run: install-apps add-user-groups enable-daemons install-translator regenerate create-git-template
+run: install-apps add-user-groups enable-daemons install-translator regenerate create-git-template install-hyprland
 	@echo "Done!"
 
 .PHONY: run
