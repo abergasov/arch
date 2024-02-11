@@ -16,6 +16,7 @@ mc
 git
 nano
 curl
+neofetch
 wget
 flatpak
 flameshot
