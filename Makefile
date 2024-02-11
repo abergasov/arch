@@ -42,7 +42,7 @@ install-apps: patch-pacman
 	sudo pacman -S --noconfirm --needed $(MMEDIA)
 	@echo "Installing flatpak apps..."
 	flatpak install -y us.zoom.Zoom
-	yay -S --noconfirm --asdeps --needed $(yay -Si goland | sed -n '/^Opt/,/^Conf/p' | sed '$d' | sed 's/^Opt.*://g' | sed 's/^\s*//g' | tr '\n' ' ')
+	yay -S --noconfirm --asdeps --needed $(shell yay -Si goland | sed -n '/^Opt/,/^Conf/p' | sed '$d' | sed 's/^Opt.*://g' | sed 's/^\s*//g' | tr '\n' ' ')
 	yay -S --noconfirm --needed goland
 
 add-user-groups:
