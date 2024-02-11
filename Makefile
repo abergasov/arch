@@ -1,4 +1,4 @@
-APPS = pacman-contrib vlc base cmake opensnitch dnsmasq openssh jq openvpn wpa_supplicant wireless-regdb wireless_tools libreoffice-still sudo mc git nano curl wget flatpak flameshot base-devel chromium mpv dhcpcd bluez zsh bluez-utils docker docker-compose tailscale avahi curl dnsutils firewalld net-tools netctl networkmanager networkmanager-openvpn network-manager-applet nm-connection-editor nss-mdns wget whois telegram-desktop steam
+APPS = pacman-contrib vlc base cmake opensnitch dnsmasq openssh jq openvpn wpa_supplicant wireless-regdb wireless_tools libreoffice-still sudo mc git nano curl wget flatpak flameshot base-devel chromium pulseaudio mpv dhcpcd bluez zsh bluez-utils docker docker-compose tailscale avahi curl dnsutils firewalld net-tools netctl networkmanager networkmanager-openvpn network-manager-applet nm-connection-editor nss-mdns wget whois telegram-desktop steam
 APPS_YAY = spotify obsidian slack azuredatastudio-bin
 FONTS = cantarell-fonts inter-font noto-fonts ttf-bitstream-vera ttf-caladea ttf-carlito ttf-cascadia-code ttf-croscore ttf-dejavu ttf-droid ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-inconsolata ttf-liberation ttf-opensans ttf-roboto ttf-ubuntu-font-family
 DRIVERS = dkms amd-ucode libva-utils linux-headers mesa
@@ -42,7 +42,7 @@ install-apps: patch-pacman
 	sudo pacman -S --noconfirm --needed $(MMEDIA)
 	@echo "Installing flatpak apps..."
 	flatpak install -y us.zoom.Zoom
-	yay -S --asdeps --needed $(yay -Si goland | sed -n '/^Opt/,/^Conf/p' | sed '$d' | sed 's/^Opt.*://g' | sed 's/^\s*//g' | tr '\n' ' ')
+	yay -S --noconfirm --asdeps --needed $(yay -Si goland | sed -n '/^Opt/,/^Conf/p' | sed '$d' | sed 's/^Opt.*://g' | sed 's/^\s*//g' | tr '\n' ' ')
 	yay -S --noconfirm --needed goland
 
 add-user-groups:
@@ -77,6 +77,7 @@ enable-daemons:
 	sudo systemctl enable NetworkManager.service
 	sudo systemctl enable opensnitchd
 	sudo systemctl enable sshd
+	sudo systemctl enable pulseaudio
 
 install-translator:
 	@echo "Installing translator..."
@@ -90,7 +91,7 @@ install-hyprland:
 	git clone https://github.com/abergasov/HyprV4.git
 	cd HyprV4 && ./set-hypr
 
-run: install-apps add-user-groups enable-daemons install-translator regenerate create-git-template install-hyprland
+run: install-apps add-user-groups enable-daemons install-translator regenerate create-git-template #install-hyprland
 	@echo "Done!"
 
 .PHONY: run

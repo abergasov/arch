@@ -21,6 +21,7 @@ flatpak
 flameshot
 base-devel
 chromium
+pulseaudio
 mpv
 dhcpcd
 bluez
